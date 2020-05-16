@@ -1,0 +1,64 @@
+# Here is what I tried to do!
+# Voici comment j'ai essaye de faire, je trouve ca logique mais ca ne marche pas du tout! Quelle erreur ai-je fait?
+# Je pense que je comprend tres mal le fonctionnement d'une app PyQt5, c'est pas faute d'entrainement...!
+
+import sys
+from PyQt5 import QtCore, QtGui, QtWidgets
+
+class ScrollableWindow(QtWidgets.QMainWindow):
+    def __init__(self, fig):
+
+        QtWidgets.QMainWindow.__init__(self)
+        self.widget = QtWidgets.QWidget()
+        self.setCentralWidget(self.widget)
+        self.widget.setLayout(QtWidgets.QVBoxLayout())
+        self.widget.layout().setContentsMargins(0,0,0,0)
+        self.widget.layout().setSpacing(0)
+
+        self.fig = fig
+        self.canvas = FigureCanvas(self.fig)
+        self.canvas.draw()
+        self.scroll = QtWidgets.QScrollArea(self.widget)
+        self.scroll.setWidget(self.canvas)
+
+        self.nav = NavigationToolbar(self.canvas, self.widget)
+        self.widget.layout().addWidget(self.nav)
+        self.widget.layout().addWidget(self.scroll)
+
+
+class Ui_MainWindow(object):
+    def setupUi(self, MainWindow):
+        MainWindow.setObjectName("MainWindow")
+        MainWindow.resize(437, 239)
+        self.centralwidget = QtWidgets.QWidget(MainWindow)
+        self.centralwidget.setObjectName("centralwidget")
+        self.btn = QtWidgets.QPushButton(self.centralwidget)
+        self.btn.setGeometry(QtCore.QRect(140, 60, 151, 41))
+        self.btn.setObjectName("btn")
+        MainWindow.setCentralWidget(self.centralwidget)
+
+        self.retranslateUi(MainWindow)
+        QtCore.QMetaObject.connectSlotsByName(MainWindow)
+
+    def retranslateUi(self, MainWindow):
+        _translate = QtCore.QCoreApplication.translate
+        MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
+        self.btn.setText(_translate("MainWindow", "PushButton"))
+        self.btn.clicked.connect(self.btn_clicked)
+
+    def btn_clicked(self):        
+        fig, axes = plt.subplots(ncols=4, nrows=5, figsize=(16, 16))
+        for ax in axes.flatten():
+            ax.plot([2, 3, 5, 1])
+       
+        a = ScrollableWindow(fig)
+        a.show()
+        # je cree une instance de la classe ScrollableWindow et je la Show ... mais non... marche pas.
+
+
+app = QtWidgets.QApplication([])
+MainWindow = QtWidgets.QMainWindow()
+ui = Ui_MainWindow()
+ui.setupUi(MainWindow)
+MainWindow.show()
+sys.exit(app.exec_())
