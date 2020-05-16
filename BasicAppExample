@@ -1,0 +1,41 @@
+# here is a basic PyQt5 App example in which I would like to include the code to get a Scrollable Window showing up!
+# Voici une application TRES basique, juste pour l'exemple, et comprendre comment faire pour 
+# inclure le code ouvrant une Scrollable Window
+
+
+import sys
+from PyQt5 import QtCore, QtGui, QtWidgets
+
+
+class Ui_MainWindow(object):
+    def setupUi(self, MainWindow):
+        MainWindow.setObjectName("MainWindow")
+        MainWindow.resize(437, 239)
+        self.centralwidget = QtWidgets.QWidget(MainWindow)
+        self.centralwidget.setObjectName("centralwidget")
+        self.btn = QtWidgets.QPushButton(self.centralwidget)
+        self.btn.setGeometry(QtCore.QRect(140, 60, 151, 41))
+        self.btn.setObjectName("btn")
+        MainWindow.setCentralWidget(self.centralwidget)
+
+        self.retranslateUi(MainWindow)
+        QtCore.QMetaObject.connectSlotsByName(MainWindow)
+
+    def retranslateUi(self, MainWindow):
+        _translate = QtCore.QCoreApplication.translate
+        MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
+        self.btn.setText(_translate("MainWindow", "PushButton"))
+        self.btn.clicked.connect(self.btn_clicked)
+
+    def btn_clicked(self):
+        # voila ici je voudrais inclure le code pour faire apparaitre la Scrollwindow
+        pass
+
+
+
+app = QtWidgets.QApplication([])
+MainWindow = QtWidgets.QMainWindow()
+ui = Ui_MainWindow()
+ui.setupUi(MainWindow)
+MainWindow.show()
+sys.exit(app.exec_())
